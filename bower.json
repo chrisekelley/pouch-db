@@ -1,7 +1,7 @@
 {
   "name": "pouch-db",
   "version": "0.0.1",
-  "homepage": "https://github.com/hubgit/pouch-db",
+  "homepage": "https://github.com/chrisekelley/pouch-db",
   "main": "pouch-db.html",
   "keywords": [
     "polymer"
