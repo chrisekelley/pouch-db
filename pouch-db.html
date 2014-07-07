@@ -1,9 +1,39 @@
 <!-- PouchDB script -->
-<script src="pouchdb.js"></script>
+<script src="../pouchdb/dist/pouchdb-nightly.js"></script>
 
 <!-- element -->
-<polymer-element name="pouch-db" noscript>
+<polymer-element name="pouch-db" attributes="name db sync">
   <template>
     <style>:host { display: none; }</style>
   </template>
+    <!-- script -->
+    <script>
+        Polymer('pouch-db', {
+            name: '',
+            sync: '',
+            attached: function() {
+                // wait for bindings are all setup
+                this.async('load');
+            },
+            nameChanged: function() {
+                if (this.name) {
+                    this.db = new PouchDB(this.name);
+                }
+            },
+            syncChanged: function() {
+                if (this.sync) {
+                    // TODO: set up syncing
+                } else {
+                    // TODO: stop syncing
+                }
+            },
+            save: function(doc) {
+                if (doc._id) {
+                    return this.db.put(doc);
+                } else {
+                    return this.db.post(doc);
+                }
+            }
+        });
+    </script>
 </polymer-element>
