@@ -5,6 +5,32 @@ PouchDB was written to help web developers build applications that work as well 
 
 PouchDB is a free open source project, written in Javascript by these [wonderful contributors](https://github.com/daleharvey/pouchdb/graphs/contributors) and inspired by <a href="http://couchdb.apache.org/">Apache CouchDB</a>.
 
+Using this polymer element
+-------------
+
+You may need to adjust the location to the pouch script. This is pointing to the pouchdb dist in bower_components:
+
+
+    <script src="../../../pouchdb/dist/pouchdb-nightly.js"></script>
+    
+Cordova can have difficulty locating the PouchDB instance; therefore, I use it in conjunction with the [app-globals]
+ (https://github.com/chrisekelley/polymer-app-globals) element.
+
+    ready: function() {
+                    this.globals = this.$.globals;
+                    if (typeof PouchDB == 'undefined') {
+                        console.log("Getting PouchDB from this.globals.")
+                        PouchDB = this.globals.App.PouchDB;
+                    }
+                },
+                
+In the form:
+
+    <app-globals id="globals"></app-globals>
+    <pouch-db id="pouch" name="report-form"></pouch-db>
+    <input type="text" name="name" id="name" placeholder="Name" value="{{theData.name}}"/>
+
+
 Using PouchDB
 -------------
 

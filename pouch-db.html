@@ -2,25 +2,22 @@
 <script src="../pouchdb/dist/pouchdb-nightly.js"></script>
 
 <!-- element -->
-<polymer-element name="pouch-db" attributes="name db sync pouch">
-  <template>
-    <style>:host { display: none; }</style>
-  </template>
+<polymer-element name="pouch-db" attributes="name db sync PouchDB">
+    <template>
+        <style>:host { display: none; }</style>
+    </template>
     <!-- script -->
     <script>
-//        console.log("pre-loading pouch");
+        //        console.log("pre-loading pouch");
 
         console.log("now loading polymer's pouch-db");
 
         Polymer('pouch-db', {
             name: '',
             sync: '',
+            PouchDB: null,
             ready: function() {
-                this.globals = this.$.globals;
-                if (typeof PouchDB == 'undefined') {
-                    console.log("Getting PouchDB from this.globals.")
-                    PouchDB = this.globals.App.PouchDB;
-                }
+                console.log("I am ready.")
             },
             attached: function() {
                 console.log("Attaching....");
@@ -32,7 +29,23 @@
                 if (this.isAttached == true) {
                     console.log("Changing to the Pouch: " + this.name);
                     if (this.name) {
-                        this.db = new PouchDB(this.name);
+                        if (typeof PouchDB != 'undefined') {
+                            console.log("PouchDB exists ");
+                            this.db = new PouchDB(this.name);
+                        } else if (this.PouchDB) {
+                            console.log("PouchDB doesn't exist; using this.PouchDB instead.");
+                            this.db = new this.PouchDB(this.name);
+                        }
+                    }
+                } else {
+                    console.log("Wait until I am properly attached.");
+                }
+            },
+            PouchDBChanged: function() {
+                if (this.isAttached == true) {
+                    if (this.PouchDB) {
+                        console.log("Changing to this.PouchDB");
+                        this.db = new this.PouchDB(this.name);
                     }
                 } else {
                     console.log("Wait until I am properly attached.");
